@@ -25,9 +25,24 @@ public class CourseServiceImpl implements CourseService {
 	
 	@Override
 	@Transactional
+	public Course getCoursebyId(int id) {
+		Course res = courseRepository.getCoursebyId(id);
+		return res;
+	}
+	
+	@Override
+	@Transactional
+	public Course updateCourse(Course c) {
+		try {
+			return courseRepository.saveAndFlush(c);
+		
+		}catch(Exception e) {return null;}
+	}
+	/*@Override
+	@Transactional
 	public List<String> getCourseNames() {
 		List<String> a =(List<String>) courseRepository.getCourseName();
 		return a;
-	}
+	}*/
 
 }
