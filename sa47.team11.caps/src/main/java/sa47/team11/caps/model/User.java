@@ -106,7 +106,13 @@ public class User implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public Role getRole() {
+		return this.role;
+	}
 
+	public void setRole(Role role) {
+		this.role = role;
+	}
 	/*public List<Course> getCourses() {
 		return this.courses;
 	}

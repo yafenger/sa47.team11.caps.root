@@ -36,24 +36,15 @@ public class commonController {
 			return new ModelAndView("login");
 		//UserSession us = new UserSession();
 		if (user.getEmail() != null && user.getPassword() != null) {
-			User u = uService.authenticate(user.getEmail(), user.getPassword());
-			if(u == null) {
+			User authorizeUser = uService.authenticate(user.getEmail(), user.getPassword());
+			if(authorizeUser == null) {
 				return new ModelAndView("login");
+			}else {
+				session.setAttribute("USERSESSION", authorizeUser);
 			}
-			//us.setUser(u);
-			// PUT CODE FOR SETTING SESSION ID
-			//us.setSessionId(session.getId());
-			//us.setEmployee(eService.findEmployeeById(us.getUser().getEmployeeId()));
-			//ArrayList<Employee> subordinates = eService.findSubordinates(us.getUser().getEmployeeId());
-			//if (subordinates != null) {
-			//	us.setSubordinates(subordinates);
-
-			//}
 			return new ModelAndView("redirect:/course/index");
 		} else {
 			return new ModelAndView("login");
 		}
-	//	session.setAttribute("USERSESSION", us);
-		//return mav;
 	}
 }

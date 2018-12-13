@@ -7,12 +7,12 @@
 	<p>
 		<c:if test="${not empty sessionScope.USERSESSION}">
 			<spring:message code="caption.user" /> :
-			<c:out value="${sessionScope.USERSESSION.user.name}" /> ;
+			<c:out value="${sessionScope.USERSESSION.getFirstMidName()}" /> ;
 			<spring:message code="caption.role" /> :
-			<c:forEach var="role" items="${sessionScope.USERSESSION.user.roleSet}">
-			 ${role.roleId} ;
-			</c:forEach>
-
+			<%-- <c:forEach var="role" items="${sessionScope.USERSESSION.getRole().getName()}">
+			 ${role.getRoleId()} ;
+			</c:forEach> --%>
+			${sessionScope.USERSESSION.getRole().getName()} ;
 		</c:if>
 	</p>
 

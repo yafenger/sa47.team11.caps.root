@@ -3,6 +3,7 @@ package sa47.team11.caps.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sa47.team11.caps.exception.courseNotFound;
 import sa47.team11.caps.model.Course;
+import sa47.team11.caps.model.User;
 import sa47.team11.caps.service.CourseService;
 
 
@@ -44,20 +46,27 @@ public class courseController {
 	}
 	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public ModelAndView editCoursePage(@PathVariable int id) throws courseNotFound{
-		ModelAndView mav = new ModelAndView("course-edit");
-		Course res = new Course();
-		//Role role = rService.findRole(id);
-		if(id>0) {
-			res = cService.getCoursebyId(id);
+	public ModelAndView editCoursePage(@PathVariable int id, HttpSession session) throws courseNotFound{
+		ModelAndView mav ;
+		User usersession =(User) session.getAttribute("USERSESSION");
+		if(usersession.getRole().getName().equalsIgnoreCase("Administrator")) {
+			mav = new ModelAndView("course-edit");
+			Course res = new Course();
+			//Role role = rService.findRole(id);
+			if(id>0) {
+				res = cService.getCoursebyId(id);
+			}
+			mav.addObject("course", res);
 		}
-		mav.addObject("course", res);
+		else {
+			mav = new ModelAndView("redirect:/course/index");
+		}
 		return mav;
 	}
 	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public ModelAndView editCoursePage(@ModelAttribute("course") @Valid Course course, BindingResult result, @PathVariable int id,
-			final RedirectAttributes redirectAttributes) throws courseNotFound {//throws RoleNotFound 
+			final RedirectAttributes redirectAttributes,HttpSession session) throws courseNotFound {//throws RoleNotFound 
 
 		/*if (result.hasErrors())
 			return new ModelAndView("course-edit");*/
