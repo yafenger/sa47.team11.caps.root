@@ -3,6 +3,7 @@ package sa47.team11.caps.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -32,28 +33,33 @@ public class Course implements Serializable {
 
 	private int credit;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="END_DATE")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "END_DATE")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date endDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="END_TIME")
-	private Date endTime;
+//	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private String endTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="EXAM_TIME")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date examTime;
 
 	@Column(name="NUMBER_REGISTERED")
 	private int numberRegistered;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="START_DATE")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="START_TIME")
-	private Date startTime;
+/*	@DateTimeFormat(pattern = "dd/MM/yyyy")*/
+	private String startTime;
 
 	private String weekday;
 
@@ -71,6 +77,26 @@ public class Course implements Serializable {
 
 	public int getCourseid() {
 		return this.courseid;
+	}
+
+	
+	public Course(int courseid, int classSize, String courseDescription, String courseName, int credit, Date endDate,
+String endTime, Date examTime, int numberRegistered, Date startDate, String startTime, String weekday
+			) {
+		super();
+		this.courseid = courseid;
+		this.classSize = classSize;
+		this.courseDescription = courseDescription;
+		this.courseName = courseName;
+		this.credit = credit;
+		this.endDate = endDate;
+		this.endTime = endTime;
+		this.examTime = examTime;
+		this.numberRegistered = numberRegistered;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.weekday = weekday;
+		
 	}
 
 	public void setCourseid(int courseid) {
@@ -117,11 +143,11 @@ public class Course implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public Date getEndTime() {
+	public String getEndTime() {
 		return this.endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 
@@ -149,11 +175,11 @@ public class Course implements Serializable {
 		this.startDate = startDate;
 	}
 
-	public Date getStartTime() {
+	public String getStartTime() {
 		return this.startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 

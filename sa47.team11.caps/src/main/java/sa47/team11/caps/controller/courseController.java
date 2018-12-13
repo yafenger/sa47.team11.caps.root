@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import sa47.team11.caps.exception.courseNotFound;
 import sa47.team11.caps.model.Course;
 import sa47.team11.caps.service.CourseService;
 
@@ -33,7 +33,7 @@ public class courseController {
 	private UserService uService;*/
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView logic() {
+	public ModelAndView logic() throws courseNotFound{
 		ModelAndView mav = new ModelAndView("courseindex");
 		//User u = uService.authenticate("Jade@gmail.com", "Password1");
 		ArrayList<Course> courselst = (ArrayList<Course>)cService.getAllCourses();
@@ -44,27 +44,58 @@ public class courseController {
 	}
 	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public ModelAndView editCoursePage(@PathVariable int id) {
+	public ModelAndView editCoursePage(@PathVariable int id) throws courseNotFound{
 		ModelAndView mav = new ModelAndView("course-edit");
+		Course res = new Course();
 		//Role role = rService.findRole(id);
-		Course res = cService.getCoursebyId(id);
+		if(id>0) {
+			res = cService.getCoursebyId(id);
+		}
 		mav.addObject("course", res);
 		return mav;
 	}
 	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public ModelAndView editCoursePage(@ModelAttribute("course") @Valid Course course, BindingResult result, @PathVariable int id,
-			final RedirectAttributes redirectAttributes) {//throws RoleNotFound 
+			final RedirectAttributes redirectAttributes) throws courseNotFound {//throws RoleNotFound 
 
 		/*if (result.hasErrors())
 			return new ModelAndView("course-edit");*/
-
 		ModelAndView mav = new ModelAndView("redirect:/course/index");
-		String message = "Role was successfully updated.";
-
-		cService.updateCourse(course);
-
-		redirectAttributes.addFlashAttribute("message", message);
+		if(id > 0)
+		{
+			String message = "Course was successfully updated.";
+			cService.updateCourse(course);
+			redirectAttributes.addFlashAttribute("message", message);
+		}else {
+			String message = "Course was successfully insert.";
+			cService.createCourse(course);
+			redirectAttributes.addFlashAttribute("message", message);
+		}
 		return mav;
 	}
+	
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public ModelAndView deleteCoursePage(@PathVariable int id) throws courseNotFound{
+		Course course = cService.getCoursebyId(id);
+		cService.removeStudent(course);
+		ModelAndView mav = new ModelAndView("redirect:/course/index");
+		String message = course.getCourseName() + " was successfully deleted.";
+		//redirectAttributes.addFlashAttribute("message", message);
+		return mav;
+	}
+	
+	
+/*	@RequestMapping(value = "/addcourse", method = RequestMethod.POST)
+	public ModelAndView createNewCourse(@ModelAttribute("course") @Valid Course course, BindingResult result,
+			final RedirectAttributes redirectAttributes) throws courseNotFound {
+		if (result.hasErrors())
+			return new ModelAndView("StudentFormNew");
+		ModelAndView mav = new ModelAndView();
+
+		cService.createCourse(course);
+		//String message = "New student " + student.getNric() + " was successfully created.";
+		mav.setViewName("redirect:/student/list");
+		return mav;
+	}*/
 }

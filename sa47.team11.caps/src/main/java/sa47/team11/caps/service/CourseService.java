@@ -9,5 +9,8 @@ public interface CourseService {
 	//List<String> getCourseNames();
 	Course getCoursebyId(int id);
 	
-	Course updateCourse(Course c);
+	int updateCourse(Course c);
+	
+	int createCourse(Course c);
+	void removeStudent(Course c);
 }

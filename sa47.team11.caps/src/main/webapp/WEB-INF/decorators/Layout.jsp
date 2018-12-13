@@ -26,8 +26,14 @@
  --%>
 	<c:url value="/css/bootstrap.min.css" var="bs"/>
 	<link rel="STYLESHEET" type="text/css"	href="${bs}" />
+	
+		<c:url value="/css/jquery-ui.css" var="jui"/>
+	<link rel="STYLESHEET" type="text/css"	href="${jui}" />
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 <%-- 
 	<c:url value="/css/magnific-popup.css" var="magnific"/>
+	
 	<link rel="stylesheet" href="${magnific}">
 	
 	<c:url value="/css/nice-select.css" var="niceselect"/>
@@ -47,7 +53,14 @@
 	 --%>
 	</head>
 	<body>
-
+	
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	    <script src="<c:url value="/js/jquery.min.js" />"></script>
+	      <script src="<c:url value="/js/jquery-ui.js" />"></script>
+	    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	    <script src="<c:url value="/js/bootstrap.min.js" />"></script>
+	    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+	
 	<nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="container">
@@ -208,11 +221,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				</div>
 			</footer>	 --%>
 	
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	    <script src="<c:url value="/js/jquery.min.js" />"></script>
-	    <!-- Include all compiled plugins (below), or include individual files as needed -->
-	    <script src="<c:url value="/js/bootstrap.min.js" />"></script>
-	    
+
 	    	<%-- <script src="<c:url value="/js/vendor/jquery-2.2.4.min.js"/>"></script>
 	    	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

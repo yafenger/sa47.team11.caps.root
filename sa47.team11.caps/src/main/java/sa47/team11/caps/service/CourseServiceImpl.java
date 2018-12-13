@@ -1,9 +1,11 @@
 package sa47.team11.caps.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +34,32 @@ public class CourseServiceImpl implements CourseService {
 	
 	@Override
 	@Transactional
-	public Course updateCourse(Course c) {
-		try {
-			return courseRepository.saveAndFlush(c);
+	public int updateCourse(Course c) {
+		//try {
+			//return courseRepository.saveAndFlush(c);
+			
+			int res= courseRepository.updateCourses(c.getCourseid(),c.getCourseName(),c.getClassSize()
+					,c.getCourseDescription(),c.getStartDate(),c.getEndDate(),c.getStartTime(),c.getEndTime(),c.getExamTime());
 		
-		}catch(Exception e) {return null;}
+			return res;
+		//}catch(Exception e) {return 0;}
+	}
+	
+	@Override
+	@Transactional
+	public int createCourse(Course s) {
+	/*	System.out.println("courseid " + s.getCourseid());
+		System.out.println("startdate " + s.getStartTime());
+		System.out.println("endTime " + s.getEndTime());*/
+		
+		return courseRepository.insertCourse(s.getCourseName(),s.getClassSize(),s.getCourseDescription(),s.getStartDate(),s.getEndDate(),s.getStartTime(),s.getEndTime(),s.getExamTime());
+		               //  @Param("endDate")Date endDate,@Param("endTime")Date endTime,@Param("startTime")Date startTime);
+	}
+	
+	@Override
+	@Transactional
+	public void removeStudent(Course c) {
+		courseRepository.delete(c);
 	}
 	/*@Override
 	@Transactional
