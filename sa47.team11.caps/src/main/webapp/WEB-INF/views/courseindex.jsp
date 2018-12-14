@@ -4,12 +4,14 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<a href="${pageContext.request.contextPath}/course/edit/${course.courseid}0.html" class="btn btn-default">Add New Course</a>
+<h3>Course Management</h3>
+<br>
+<a href="${pageContext.request.contextPath}/course/edit/${course.courseid}0.html" class="btn btn-info">Add New Course</a>
 <c:if test="${fn:length(courselst) gt 0 }">
 	<table class="table table-striped">
 	  		<thead>
 				<tr class="listHeading">
+					<th>#</th>
 					<th><spring:message code="fieldLabel.courseId" /></th>
 					<th><spring:message code="fieldLabel.courseName" /></th>
 					<th><spring:message code="fieldLabel.courseDesc" /></th>
@@ -22,9 +24,10 @@
 			</thead>
 
 	  <tbody>
-		 <c:forEach var="course" items="${courselst}">
+		 <c:forEach var="course" items="${courselst}" varStatus="idx">
 			<tr>
-		      <th scope="row">${course.courseid}</th>
+			 <th scope="row">${idx.index+1}</th>
+		      <th>${course.courseid}</th>
 		      <td>${course.courseName}</td>
 		      <td>${course.courseDescription}</td>
 		      <td>

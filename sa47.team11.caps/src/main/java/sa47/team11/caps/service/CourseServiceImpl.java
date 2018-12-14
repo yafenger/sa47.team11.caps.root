@@ -61,11 +61,18 @@ public class CourseServiceImpl implements CourseService {
 	public void removeStudent(Course c) {
 		courseRepository.delete(c);
 	}
-	/*@Override
+	
+	@Override
 	@Transactional
-	public List<String> getCourseNames() {
-		List<String> a =(List<String>) courseRepository.getCourseName();
-		return a;
-	}*/
+	public int removeEnrollment(int cid,int sid) {
+		//courseRepository.deleteCourseEnrolled(cid,sid);
+		return 0;
+	}
+
+	@Override
+	@Transactional
+	public void createEnrollment(Integer cid,Integer sid,String sta) {
+		courseRepository.createEnrollment(cid, sid, sta);
+	}
 
 }

@@ -2,23 +2,12 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     
 <div class="container">
   <form:form class="form-horizontal" method="POST" modelAttribute="course"
   	action="${pageContext.request.contextPath}/course/edit/${course.courseid}.html" >
   	
-  	    
-<%--      <div class="form-group">
-	      <label class="control-label col-sm-2" for="courseid">
-	      	course id
-	      </label>
-	      <div class="col-sm-4">
-	     <!--    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email"> -->
-	     
-		     <form:input path="courseid" class="form-control" placeholder="course id" />
-	      </div>
-    </div> --%>
   	<form:hidden path="courseid" />
     <div class="form-group">
       <label class="control-label col-sm-2" for="courseName">
@@ -105,8 +94,24 @@
     <div class="form-group">        
       <div class="col-sm-offset-2 col-sm-10">
        <!--  <button type="submit" class="btn btn-default">Submit</button> -->
-       <form:button name="submit" class="btn btn-default" type="submit">Update</form:button>
+        <c:if test="${course.courseid gt 0}">
+	       <form:button name="submit" class="btn btn-default" type="submit">
+		       Update
+	       </form:button>
+	       <form:button name="reset" class="btn btn-default" type="submit">
+		       Reset
+	       </form:button>
+       </c:if>
+       <c:if test="${course.courseid == 0}">
+	       <form:button name="submit" class="btn btn-default" type="submit">
+		       Insert
+	       </form:button>
+	       <a class="btn btn-default" href="${pageContext.request.contextPath}/course/index">
+	       		Back
+	       </a>
+       </c:if>
       </div>
+
     </div>
   </form:form>
 </div>

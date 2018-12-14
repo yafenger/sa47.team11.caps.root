@@ -1,26 +1,30 @@
 package sa47.team11.caps.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-import sa47.team11.caps.model.Role;
 import sa47.team11.caps.model.User;
 
 public interface UserService {
-	ArrayList<User> findAllUsers();
 
-	User findUser(String userId);
-
-	User createUser(User user);
-
-	User changeUser(User user);
-
+	//Retrieve all user from DB
+	ArrayList<User>getAllUsers();
+	
+	//Retrieve user with the specific ID
+	User findStudentById(Integer userId);
+	
+	//Create new student record	
+	void createStudent(String firstMidName, String lastName, Date dateJoined,String email,String password);
+	
+	//Edit student record
+	void editStudent(String firstMidName, String lastName, String status, Integer userid);
+	
+	//Delete student record
 	void removeUser(User user);
-
-	ArrayList<Role> findRolesForUser(String userId);
-
-	ArrayList<String> findRoleNamesForUser(String userId);
-
-	ArrayList<String> findManagerNameByUID(String userId);
 	
 	User authenticate(String uname, String pwd);
+	
+	ArrayList<User> getUserStudentRole();
+	
+	User findUser(Integer userId);
 }

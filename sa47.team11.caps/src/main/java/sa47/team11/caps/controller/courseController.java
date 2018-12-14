@@ -35,14 +35,18 @@ public class courseController {
 	private UserService uService;*/
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView logic() throws courseNotFound{
-		ModelAndView mav = new ModelAndView("courseindex");
-		//User u = uService.authenticate("Jade@gmail.com", "Password1");
-		ArrayList<Course> courselst = (ArrayList<Course>)cService.getAllCourses();
+	public ModelAndView logic(HttpSession session) throws courseNotFound{
+		User authenticatedUser = (User) session.getAttribute("USERSESSION");
 		
-	//	List<String> courselst = cService.getCourseNames();
-		mav.addObject("courselst", courselst);
-		return mav;
+		ModelAndView mav;
+		if(authenticatedUser != null) {
+			mav = new ModelAndView("courseindex");
+			ArrayList<Course> courselst = (ArrayList<Course>)cService.getAllCourses();
+			mav.addObject("courselst", courselst);
+			return mav;
+		}else {
+			return new ModelAndView("redirect:/home/login");
+		}
 	}
 	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -52,7 +56,6 @@ public class courseController {
 		if(usersession.getRole().getName().equalsIgnoreCase("Administrator")) {
 			mav = new ModelAndView("course-edit");
 			Course res = new Course();
-			//Role role = rService.findRole(id);
 			if(id>0) {
 				res = cService.getCoursebyId(id);
 			}
@@ -94,17 +97,22 @@ public class courseController {
 		return mav;
 	}
 	
-	
-/*	@RequestMapping(value = "/addcourse", method = RequestMethod.POST)
-	public ModelAndView createNewCourse(@ModelAttribute("course") @Valid Course course, BindingResult result,
-			final RedirectAttributes redirectAttributes) throws courseNotFound {
-		if (result.hasErrors())
-			return new ModelAndView("StudentFormNew");
-		ModelAndView mav = new ModelAndView();
-
-		cService.createCourse(course);
-		//String message = "New student " + student.getNric() + " was successfully created.";
-		mav.setViewName("redirect:/student/list");
+	@RequestMapping(value = "/enroll", method = RequestMethod.GET)
+	public ModelAndView logic1() {
+		ModelAndView mav = new ModelAndView("enrollment");
+		//User u = uService.authenticate("Jade@gmail.com", "Password1");
+		ArrayList<Course> courselst = (ArrayList<Course>)cService.getAllCourses();
+		
+	//	List<String> courselst = cService.getCourseNames();
+		mav.addObject("courselst", courselst);
 		return mav;
-	}*/
+	}
+	
+	@RequestMapping(value="/test/{cid}/{sid}", method = RequestMethod.GET)
+	public ModelAndView test(@PathVariable int cid,@PathVariable int sid) {
+		cService.createEnrollment(cid, sid, "successful");
+		ModelAndView mav = new ModelAndView("test");
+		return mav;
+	}
+	
 }

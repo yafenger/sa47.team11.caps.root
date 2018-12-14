@@ -2,14 +2,12 @@ package sa47.team11.caps.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the user database table.
- * 
- */
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
@@ -21,6 +19,7 @@ public class User implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATE_JOINED")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dateJoined;
 
 	private String email;
@@ -45,7 +44,7 @@ public class User implements Serializable {
 
 	//bi-directional many-to-one association to Role
 	@ManyToOne
-	@JoinColumn(name="ROLEID")
+	@JoinColumn(name="ROLEID",nullable=false)
 	private Role role;
 
 	public User() {

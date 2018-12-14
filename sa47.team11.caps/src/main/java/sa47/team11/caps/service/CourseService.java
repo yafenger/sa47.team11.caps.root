@@ -13,4 +13,8 @@ public interface CourseService {
 	
 	int createCourse(Course c);
 	void removeStudent(Course c);
+	
+	int removeEnrollment(int cid,int sid);
+	void createEnrollment(Integer cid, Integer sid, String sta);
+	
 }

@@ -14,8 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import sa47.team11.caps.service.UserService;
 import sa47.team11.caps.model.User;
 
-
-
 @Controller
 @RequestMapping(value = "/home")
 public class commonController {
@@ -31,10 +29,8 @@ public class commonController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView authenticate(@ModelAttribute("user") User user, HttpSession session, BindingResult result) {
-		//ModelAndView mav = 
 		if (result.hasErrors())
 			return new ModelAndView("login");
-		//UserSession us = new UserSession();
 		if (user.getEmail() != null && user.getPassword() != null) {
 			User authorizeUser = uService.authenticate(user.getEmail(), user.getPassword());
 			if(authorizeUser == null) {
@@ -42,9 +38,26 @@ public class commonController {
 			}else {
 				session.setAttribute("USERSESSION", authorizeUser);
 			}
-			return new ModelAndView("redirect:/course/index");
+			User authenticatedUser = (User) session.getAttribute("USERSESSION");
+			if(authenticatedUser.getRole().getName().equalsIgnoreCase("administrator")) {
+				return new ModelAndView("redirect:/course/index");
+			}else if(authenticatedUser.getRole().getName().equalsIgnoreCase("Lecturer")) {
+				return new ModelAndView("redirect:/lecturer/coursetaught/"+authenticatedUser.getUserid()); 
+			}else if(authenticatedUser.getRole().getName().equalsIgnoreCase("Student")) {
+				return new ModelAndView("redirect:/course/enroll");
+			}else {
+				return new ModelAndView("login");
+			}
+			
 		} else {
 			return new ModelAndView("login");
 		}
+	}
+	
+	@RequestMapping(value = "/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/home/login";
+
 	}
 }
